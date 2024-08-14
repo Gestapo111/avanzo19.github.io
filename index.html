@@ -50,6 +50,132 @@
                 correct: "B",
                 image: "https://i.postimg.cc/Z5yLdrCc/1.jpg"
             },
+            // ... Otras preguntas
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionsContainer = document.getElementById('questionsContainer');
+            shuffleArray(questions);
+            renderQuestions(questionsContainer, questions);
+        });
+
+        function shuffleArray(array) {
+            array.sort(() => Math.random() - 0.5);
+        }
+
+        function renderQuestions(container, questions) {
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+
+                const questionText = document.createElement('p');
+                questionText.innerText = `${index + 1}. ${question.text}`;
+                questionDiv.appendChild(questionText);
+
+                if (question.image) {
+                    const questionImage = document.createElement('img');
+                    questionImage.src = question.image;
+                    questionDiv.appendChild(questionImage);
+                }
+
+                question.options.forEach(option => {
+                    const optionLabel = document.createElement('label');
+                    optionLabel.style.display = "block";
+
+                    const optionInput = document.createElement('input');
+                    optionInput.type = 'radio';
+                    optionInput.name = `question${index}`;
+                    optionInput.value = option.charAt(0);
+
+                    optionLabel.appendChild(optionInput);
+                    optionLabel.appendChild(document.createTextNode(option));
+                    questionDiv.appendChild(optionLabel);
+                });
+
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function calculateScore() {
+            let score = 0;
+            const incorrectAnswers = [];
+
+            questions.forEach((question, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption) {
+                    if (selectedOption.value === question.correct) {
+                        score++;
+                    } else {
+                        incorrectAnswers.push(index + 1);
+                    }
+                } else {
+                    incorrectAnswers.push(index + 1);
+                }
+            });
+
+            displayResults(score, incorrectAnswers);
+        }
+
+        function displayResults(score, incorrectAnswers) {
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = '';
+            const totalQuestions = questions.length;
+            const grade = (score / totalQuestions) * 10;
+
+            const resultText = document.createElement('p');
+            resultText.innerText = `Tu calificación es: ${grade.toFixed(2)} / 10`;
+            resultContainer.appendChild(resultText);
+
+            if (incorrectAnswers.length > 0) {
+                const incorrectText = document.createElement('p');
+                incorrectText.className = 'incorrect';
+                incorrectText.innerText = `Preguntas incorrectas: ${incorrectAnswers.join(', ')}`;
+                resultContainer.appendChild(incorrectText);
+            } else {
+                const correctText = document.createElement('p');
+                correctText.className = 'correct';
+                correctText.innerText = '¡Todas las respuestas son correctas!';
+                resultContainer.appendChild(correctText);
+            }
+        }
+    </script>
+</body>
+</html>
+Mejoras aplicadas:
+Reorganización del código: Se dividió el código en funciones más pequeñas (shuffleArray, renderQuestions, calculateScore, displayResults) para mejorar la legibilidad y facilitar su mantenimiento.
+Manejo de eventos: Se usó DOMContentLoaded para asegurar que el DOM esté completamente cargado antes de manipularlo.
+Variables y constantes: Se utilizaron const y let en lugar de var para declarar variables, lo que mejora la seguridad y el rendimiento.
+Este código es más modular y debería ser más fácil de mantener a medida que tu aplicación crece.
+
+
+
+
+
+
+
+
+
+
+ChatGPT puede cometer errores. Comprueba la información 
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" onclick="calculateScore()">Enviar Respuestas</button>
+    </form>
+    <div id="resultContainer"></div>
+
+    <script>
+        const questions = [
+            {
+                text: "Un niño camina 4 metros hacia el este y luego 3 metros hacia el norte; el desplazamiento resultante. Para ubicar el desplazamiento considera el siguiente esquema de la situación (Escala 1cm = 1m)",
+                options: [
+                    "A. 49 m al NE",
+                    "B. 5 m al NE",
+                    "C. 7 m al N",
+                    "D. 25 m al E"
+                ],
+                correct: "B",
+                image: "https://i.postimg.cc/Z5yLdrCc/1.jpg"
+            },
             {
                 text: "Observa y analiza las posiciones de diferentes animales respecto a un punto de referencia. A partir del esquema, ¿Cómo definirías el concepto cinemático «posición»?",
                 options: [
@@ -356,50 +482,55 @@ acantilados. 4. Cuando se desplaza el agua subterránea, produce erosión y disg
             }
         ];
 
-        // Barajar las preguntas
-        questions.sort(() => Math.random() - 0.5);
-
-        const questionsContainer = document.getElementById('questionsContainer');
-
-        questions.forEach((question, index) => {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-
-            const questionText = document.createElement('p');
-            questionText.innerText = `${index + 1}. ${question.text}`;
-            questionDiv.appendChild(questionText);
-
-            if (question.image) {
-                const questionImage = document.createElement('img');
-                questionImage.src = question.image;
-                questionDiv.appendChild(questionImage);
-            }
-
-            question.options.forEach(option => {
-                const optionLabel = document.createElement('label');
-                optionLabel.style.display = "block";
-
-                const optionInput = document.createElement('input');
-                optionInput.type = 'radio';
-                optionInput.name = `question${index}`;
-                optionInput.value = option.charAt(0);
-
-                optionLabel.appendChild(optionInput);
-                optionLabel.appendChild(document.createTextNode(option));
-                questionDiv.appendChild(optionLabel);
-            });
-
-            questionsContainer.appendChild(questionDiv);
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionsContainer = document.getElementById('questionsContainer');
+            shuffleArray(questions);
+            renderQuestions(questionsContainer, questions);
         });
+
+        function shuffleArray(array) {
+            array.sort(() => Math.random() - 0.5);
+        }
+
+        function renderQuestions(container, questions) {
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+
+                const questionText = document.createElement('p');
+                questionText.innerText = `${index + 1}. ${question.text}`;
+                questionDiv.appendChild(questionText);
+
+                if (question.image) {
+                    const questionImage = document.createElement('img');
+                    questionImage.src = question.image;
+                    questionDiv.appendChild(questionImage);
+                }
+
+                question.options.forEach(option => {
+                    const optionLabel = document.createElement('label');
+                    optionLabel.style.display = "block";
+
+                    const optionInput = document.createElement('input');
+                    optionInput.type = 'radio';
+                    optionInput.name = `question${index}`;
+                    optionInput.value = option.charAt(0);
+
+                    optionLabel.appendChild(optionInput);
+                    optionLabel.appendChild(document.createTextNode(option));
+                    questionDiv.appendChild(optionLabel);
+                });
+
+                container.appendChild(questionDiv);
+            });
+        }
 
         function calculateScore() {
             let score = 0;
-            const totalQuestions = questions.length;
             const incorrectAnswers = [];
 
             questions.forEach((question, index) => {
                 const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
-
                 if (selectedOption) {
                     if (selectedOption.value === question.correct) {
                         score++;
@@ -411,10 +542,16 @@ acantilados. 4. Cuando se desplaza el agua subterránea, produce erosión y disg
                 }
             });
 
+            displayResults(score, incorrectAnswers);
+        }
+
+        function displayResults(score, incorrectAnswers) {
             const resultContainer = document.getElementById('resultContainer');
             resultContainer.innerHTML = '';
-            const resultText = document.createElement('p');
+            const totalQuestions = questions.length;
             const grade = (score / totalQuestions) * 10;
+
+            const resultText = document.createElement('p');
             resultText.innerText = `Tu calificación es: ${grade.toFixed(2)} / 10`;
             resultContainer.appendChild(resultText);
 
