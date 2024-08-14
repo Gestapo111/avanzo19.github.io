@@ -470,67 +470,73 @@ ChatGPT puede cometer errores. Comprueba la información
                 correct: "D"
             },
             {
-                text: "En nuestro país una tormenta puede generar desastres ocasionados por las aguas superficiales. Selecciona la(s) explicación(es) verdadera(s) de los efectos de las aguas superficiales, 1. Al impermeabilizar el suelo producto de la urbanización, tras una lluvia estas aguas discurren sin ningún cauce fijo. 2. Cuando las corrientes de agua de los ríos tienen dimensiones mayores a su cauce normal, arrastran materiales que dan lugar a la formación de barreras. 3. El agua de mar provoca erosión debido al efecto de las olas al chocar contra los
-acantilados. 4. Cuando se desplaza el agua subterránea, produce erosión y disgregación de los terrenos sobre los que origina desplazamientos de tierra:",
+                text: "En mayo de 2016, un ingenio azucarero ubicado en el Municipio de Chalchuapa, Santa Ana derramó 900,000 galones de melaza en el cauce del Río Magdalena. La melaza es un sobrante químico derivado del procesamiento de la caña de azúcar, y con él se fabrica concentrado alimenticio para animales; cuando la melaza toca el agua se proliferan microorganismos aerobios que degradan esta materia orgánica. El derrame de melaza en el Río Magdalena se considera una emergencia ambiental porque:",
+                options: [
+                    "A. Microorganismos disminuyen el oxígeno en el agua, provocando disminución de animales acuáticos.",
+                    "B. Disminuye la composición de materia orgánica del que se alimentan los peces y otras especies.",
+                    "C. La melaza es una sustancia tóxica que envenenará lentamente muchas especies del río.",
+                    "D. Se producirá saturación de azúcar en el agua debido a la melaza provocando que los peces se asfixien."
+                ],
+                correct: "A"
+            },
+            // Más preguntas
+            {
+                text: "En nuestro país una tormenta puede generar desastres ocasionados por las aguas superficiales. Selecciona la(s) explicación(es) verdadera(s) de los efectos de las aguas superficiales.",
                 options: [
                     "A. 1 y 2",
                     "B. 3 y 4",
                     "C. 2 y 3",
                     "D. Solo 1"
                 ],
-                correct: "A"
+                correct: "A",
+                image: "https://i.postimg.cc/9XsjVvN0/Smart-Select-20240814-151254-WPS-Office.jpg"
             }
         ];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const questionsContainer = document.getElementById('questionsContainer');
-            shuffleArray(questions);
-            renderQuestions(questionsContainer, questions);
-        });
+        // Barajar las preguntas
+        questions.sort(() => Math.random() - 0.5);
 
-        function shuffleArray(array) {
-            array.sort(() => Math.random() - 0.5);
-        }
+        const questionsContainer = document.getElementById('questionsContainer');
 
-        function renderQuestions(container, questions) {
-            questions.forEach((question, index) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question';
+        questions.forEach((question, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
 
-                const questionText = document.createElement('p');
-                questionText.innerText = `${index + 1}. ${question.text}`;
-                questionDiv.appendChild(questionText);
+            const questionText = document.createElement('p');
+            questionText.innerText = `${index + 1}. ${question.text}`;
+            questionDiv.appendChild(questionText);
 
-                if (question.image) {
-                    const questionImage = document.createElement('img');
-                    questionImage.src = question.image;
-                    questionDiv.appendChild(questionImage);
-                }
+            if (question.image) {
+                const questionImage = document.createElement('img');
+                questionImage.src = question.image;
+                questionDiv.appendChild(questionImage);
+            }
 
-                question.options.forEach(option => {
-                    const optionLabel = document.createElement('label');
-                    optionLabel.style.display = "block";
+            question.options.forEach(option => {
+                const optionLabel = document.createElement('label');
+                optionLabel.style.display = "block";
 
-                    const optionInput = document.createElement('input');
-                    optionInput.type = 'radio';
-                    optionInput.name = `question${index}`;
-                    optionInput.value = option.charAt(0);
+                const optionInput = document.createElement('input');
+                optionInput.type = 'radio';
+                optionInput.name = `question${index}`;
+                optionInput.value = option.charAt(0);
 
-                    optionLabel.appendChild(optionInput);
-                    optionLabel.appendChild(document.createTextNode(option));
-                    questionDiv.appendChild(optionLabel);
-                });
-
-                container.appendChild(questionDiv);
+                optionLabel.appendChild(optionInput);
+                optionLabel.appendChild(document.createTextNode(option));
+                questionDiv.appendChild(optionLabel);
             });
-        }
+
+            questionsContainer.appendChild(questionDiv);
+        });
 
         function calculateScore() {
             let score = 0;
+            const totalQuestions = questions.length;
             const incorrectAnswers = [];
 
             questions.forEach((question, index) => {
                 const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+
                 if (selectedOption) {
                     if (selectedOption.value === question.correct) {
                         score++;
@@ -542,16 +548,10 @@ acantilados. 4. Cuando se desplaza el agua subterránea, produce erosión y disg
                 }
             });
 
-            displayResults(score, incorrectAnswers);
-        }
-
-        function displayResults(score, incorrectAnswers) {
             const resultContainer = document.getElementById('resultContainer');
             resultContainer.innerHTML = '';
-            const totalQuestions = questions.length;
-            const grade = (score / totalQuestions) * 10;
-
             const resultText = document.createElement('p');
+            const grade = (score / totalQuestions) * 10;
             resultText.innerText = `Tu calificación es: ${grade.toFixed(2)} / 10`;
             resultContainer.appendChild(resultText);
 
