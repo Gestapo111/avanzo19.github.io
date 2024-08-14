@@ -3,62 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba Diagnóstica de Ciencias Naturales - Segundo Año de Bachillerato</title>
+    <title>Cuestionario de Ciencias</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
         }
-        header {
-            background-color: #0044cc;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        main {
-            padding: 20px;
-            background-color: white;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        section {
+        .question {
             margin-bottom: 20px;
         }
-        h1, h2 {
-            color: #0044cc;
+        .question img {
+            max-width: 100%;
+            height: auto;
         }
-        p {
-            line-height: 1.6;
-        }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        footer {
-            background-color: #002080;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .btn {
-            display: inline-block;
-            background-color: #0044cc;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
+        .result {
             margin-top: 20px;
-            cursor: pointer;
+            padding: 10px;
+            border: 2px solid #000;
+            background-color: #f8f8f8;
         }
         .correct {
             color: green;
@@ -66,271 +27,407 @@
         .incorrect {
             color: red;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Prueba Diagnóstica de Ciencias Naturales</h1>
-        <h2>Segundo Año de Bachillerato - 2019</h2>
-        <p>Ministerio de Educación, Ciencia y Tecnología</p>
-    </header>
-    <main>
-        <section>
-            <h2>Instrucciones Generales</h2>
-            <p>La prueba consta de 30 ítems de opción múltiple, con cuatro opciones de respuesta, de las cuales solo una es la correcta. Selecciona la opción correcta para cada pregunta y luego presiona el botón para obtener tu calificación.</p>
-        </section>
-        <section id="quiz">
-            <!-- Questions will be rendered here -->
-        </section>
-
-        <a class="btn" href="javascript:void(0);" onclick="obtenerCalificacion()">Obtener Calificación</a>
-    </main>
-
-    <footer>
-        <p>Derechos reservados, Profesor Alberto Sanchez</p>
-    </footer>
+    <h1>Cuestionario de Ciencias</h1>
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+        <button type="button" onclick="calculateScore()">Enviar Respuestas</button>
+    </form>
+    <div id="resultContainer"></div>
 
     <script>
-        function obtenerCalificacion() {
-            var correctAnswers = [
-                "B", "A", "C", "A", "A", "D", "A", "A", "C", "B", 
-                "A", "A", "B", "A", "D", "A", "A", "B", "D", "B", 
-                "D", "A", "C", "C", "C", "C", "C", "A", "D", "A"
-            ];
-            var score = 0;
-            var allAnswered = true;
-            for (var i = 1; i <= 30; i++) {
-                var question = document.querySelector('input[name="q' + i + '"]:checked');
-                if (question) {
-                    if (question.value === correctAnswers[i - 1]) {
-                        document.getElementById('result' + i).innerText = "Correcto";
-                        document.getElementById('result' + i).className = "correct";
+        const questions = [
+            {
+                text: "Un niño camina 4 metros hacia el este y luego 3 metros hacia el norte; el desplazamiento resultante es:",
+                options: [
+                    "A. 49 m al NE",
+                    "B. 5 m al NE",
+                    "C. 7 m al N",
+                    "D. 25 m al E"
+                ],
+                correct: "B",
+                image: "https://i.postimg.cc/Z5yLdrCc/1.jpg"
+            },
+            {
+                text: "Observa y analiza las posiciones de diferentes animales respecto a un punto de referencia. ¿Cómo definirías el concepto cinemático «posición»?",
+                options: [
+                    "A. Es un vector que indica el lugar ocupado por el cuerpo respecto a un sistema de referencia.",
+                    "B. Es una flecha cuya longitud representa a escala la dirección de los cuerpos en una tabla de datos.",
+                    "C. Es una referencia para que el observador pueda medir la ubicación de los cuerpos.",
+                    "D. Son vectores en forma de flecha que indican la distancia que recorrió un cuerpo."
+                ],
+                correct: "A",
+                image: "https://i.postimg.cc/N067NB82/2.jpg"
+            },
+            {
+                text: "Un vehículo se traslada desde San Salvador hacia Sonsonate, sabiendo que entre ambas ciudades existe una distancia de 65.0 Km. y se desplaza a una velocidad de 80.0 Km. /h. Esa velocidad expresada en metros por segundo es equivalente a:",
+                options: [
+                    "A. 1230.7 m/s",
+                    "B. 133.3 m/s",
+                    "C. 22.2 m/s",
+                    "D. 1.3m/s"
+                ],
+                correct: "C"
+            },
+            {
+                text: "Una barra de metal sólido tiene una masa de 21.53 kg. ¿A cuánto equivale en miligramos?",
+                options: [
+                    "A. 21530000",
+                    "B. 21530",
+                    "C. 0.2153",
+                    "D. 0.02153"
+                ],
+                correct: "A"
+            },
+            {
+                text: "En el laboratorio de ciencias, 4 estudiantes realizaron mediciones de bebidas hidratantes con una probeta de 600 ml, ¿cuál de las medidas expresadas en forma de incerteza muestra la mayor precisión?",
+                options: [
+                    "A. 500.0 ± 0.5 ml",
+                    "B. 500 ± 1 ml",
+                    "C. 500.0 ± 1.5 ml",
+                    "D. 500.0 ± 2.0 ml"
+                ],
+                correct: "A"
+            },
+            {
+                text: "El promedio de 5 medidas de la longitud de una regla métrica es de x̅ = 4.82 m; si una de las medidas (X1) es de 4.85 m, calcula la incerteza relativa (Ir), aplicando la siguiente fórmula: Ir = e / x̅; si e = X1 - x̅:",
+                options: [
+                    "A. 16066 m",
+                    "B. 160.6 m",
+                    "C. 0.62 m",
+                    "D. 0.0062 m"
+                ],
+                correct: "C"
+            },
+            {
+                text: "Una de las características del movimiento de tiro vertical es:",
+                options: [
+                    "A. La velocidad inicial con la que es lanzado el objeto es diferente de cero.",
+                    "B. El objeto es lanzado desde una altura establecida.",
+                    "C. La velocidad inicial con la que es lanzado el objeto es nula.",
+                    "D. La gravedad influye siempre en la misma dirección del lanzamiento."
+                ],
+                correct: "A",
+                image: "https://i.postimg.cc/8CQmBjvV/7.jpg"
+            },
+            {
+                text: "Se deja caer un objeto de un puente, el cual tarda 3 segundos en tocar el suelo, ¿de qué altura cae?",
+                options: [
+                    "A. 44.1 m",
+                    "B. 29.4 m",
+                    "C. 14.7 m",
+                    "D. 58.8 m"
+                ],
+                correct: "B"
+            },
+            {
+                text: "Víctor viaja en un vehículo que se detiene bruscamente, la reacción de Víctor es impulsarse hacia adelante; según las leyes de Newton, ¿cuál es el motivo de esta reacción?",
+                options: [
+                    "A. Debido a la fuerza recibida hubo variación en el movimiento del cuerpo.",
+                    "B. El cuerpo reacciona en dirección contraria a la que se conducía originalmente.",
+                    "C. La tendencia a conservar la dirección y velocidad a la que se estaba viajando.",
+                    "D. Porque el cuerpo continúa moviéndose en línea recta."
+                ],
+                correct: "C"
+            },
+            {
+                text: "Una persona empuja una pared de concreto. Considerando la 3ª ley de Newton, ¿cuál de las siguientes afirmaciones es la correcta?",
+                options: [
+                    "A. Debido a que la pared no puede moverse, ésta no puede actuar sobre la persona.",
+                    "B. La persona empuja la pared con una fuerza igual a la fuerza que ejerce la pared sobre la persona.",
+                    "C. La pared realiza una fuerza de mayor magnitud que la que realiza la persona.",
+                    "D. La persona no puede empujar la pared porque ésta es un cuerpo firme."
+                ],
+                correct: "B",
+                image: "https://i.postimg.cc/Kzm7wwQq/10.jpg"
+            },
+            {
+                text: "Cuando 2 barras de metales diferentes se calientan, se expanden en distinta proporción; esto se debe a que:",
+                options: [
+                    "A. Cada barra de metal tiene su propio coeficiente de dilatación.",
+                    "B. El aumento de la cantidad de energía cinética es diferente en cada barra.",
+                    "C. Los materiales experimentan un cambio de estado.",
+                    "D. La dilatación se detuvo en una barra antes que en la otra."
+                ],
+                correct: "A"
+            },
+            {
+                text: "La primera ley de la termodinámica expone el principio de conservación de la energía con la ecuación Q=W+ΔU; en la que la expresión ΔU significa:",
+                options: [
+                    "A. La variación de la energía interna.",
+                    "B. La cantidad de calor.",
+                    "C. El trabajo realizado.",
+                    "D. La variación de temperatura."
+                ],
+                correct: "A"
+            },
+            {
+                text: "Los elementos de la familia del nitrógeno, según su ubicación en la tabla periódica, se clasifican de la siguiente forma:",
+                options: [
+                    "A. N y P no metales; As y Sb metales; Bi metaloide.",
+                    "B. N y P no metales; As y Sb metaloides; Bi metal.",
+                    "C. N, P y As metales; Sb y Bi metaloides.",
+                    "D. N y P metales; As y Sb metaloides; Bi no metal."
+                ],
+                correct: "B",
+                image: "https://i.postimg.cc/W3Smv8H2/13.jpg"
+            },
+            {
+                text: "El derrame de melaza en el Río Magdalena se considera una emergencia ambiental porque:",
+                options: [
+                    "A. Microorganismos disminuyen el oxígeno en el agua, provocando disminución de animales acuáticos.",
+                    "B. Disminuye la composición de materia orgánica del que se alimentan los peces y otras especies.",
+                    "C. La melaza es una sustancia tóxica que envenenará lentamente muchas especies del río.",
+                    "D. Se producirá saturación de azúcar en el agua debido a la melaza provocando que los peces se asfixien."
+                ],
+                correct: "A",
+                image: "https://i.postimg.cc/0jQY2ST7/15.jpg"
+            },
+            {
+                text: "La interpretación correcta de los datos mostrados en la viñeta es:",
+                options: [
+                    "A. El volumen de HCl es del 5 % y 0.1 la molalidad.",
+                    "B. La masa contenida en la solución es 1095 g/ml y 0.1, su molalidad.",
+                    "C. La masa contenida en la solución es 1095 g/ml y 0.1, su molaridad.",
+                    "D. La masa de HCl es del 5% y 0.1 la molalidad."
+                ],
+                correct: "A"
+            },
+            {
+                text: "Los átomos del diamante y el grafito tienen diferentes arreglos espaciales en el enlace covalente porque:",
+                options: [
+                    "A. Los átomos del diamante y el grafito tienen diferentes arreglos espaciales en el enlace covalente.",
+                    "B. El diamante tiene un enlace covalente puro y el grafito un enlace covalente polar.",
+                    "C. La fuerza de unión entre los átomos en el enlace del diamante es más fuerte, en comparación con la del grafito.",
+                    "D. La electronegatividad es una propiedad química que presenta poca influencia en el arreglo de los átomos."
+                ],
+                correct: "C"
+            },
+            {
+                text: "Seleccione la característica que permite la formación de un enlace iónico:",
+                options: [
+                    "A. La diferencia de electronegatividad entre los átomos es grande.",
+                    "B. Todas las sustancias que presentan este tipo de enlace deben ser solubles en agua.",
+                    "C. Los puntos de fusión y de ebullición de los compuestos deben ser bajos.",
+                    "D. La diferencia de electronegatividad entre los átomos es pequeña."
+                ],
+                correct: "A",
+                image: "https://i.postimg.cc/qq58tRrS/16.jpg"
+            },
+            {
+                text: "En la tabla periódica, el ordenamiento de los elementos está determinado por medio de:",
+                options: [
+                    "A. El número másico.",
+                    "B. El número atómico.",
+                    "C. El peso atómico.",
+                    "D. La valencia."
+                ],
+                correct: "B"
+            },
+            {
+                text: "De acuerdo con la figura mostrada, los niveles de organización que corresponden a los espacios vacíos son:",
+                options: [
+                    "A. Moléculas, células, sistema de órganos.",
+                    "B. Complejo supramolecular, células, sistema de órganos.",
+                    "C. Población, comunidad, ecosistema.",
+                    "D. Tejidos, órganos, organismo multicelular complejo."
+                ],
+                correct: "A",
+                image: "https://i.postimg.cc/wxf54WN2/19.jpg"
+            },
+            {
+                text: "Dentro de la composición de los seres vivos, ¿cuál es el nivel estructural más sencillo que puede desarrollar las funciones de la vida?",
+                options: [
+                    "A. Molecular.",
+                    "B. Celular.",
+                    "C. Atómico.",
+                    "D. Tisular."
+                ],
+                correct: "B"
+            },
+            {
+                text: "La biósfera constituye la jerarquía más alta del nivel de organización porque:",
+                options: [
+                    "A. Establece la relación entre grupos de diferentes especies, con el medio que les rodea.",
+                    "B. Se produce la organización de tejidos y órganos que realizarán determinadas funciones.",
+                    "C. Permite la formación de grupos de individuos similares que tienden a aparearse entre sí.",
+                    "D. Todos los seres vivos están relacionados en conjunto con su medio ambiente."
+                ],
+                correct: "A"
+            },
+            {
+                text: "¿Cuál es la función principal de los cloroplastos en el proceso fotosintético?",
+                options: [
+                    "A. Captar la luz por medio de los pigmentos presentes en los discos tilacoides.",
+                    "B. Convertir la energía química para sintetizar glúcidos y aminoácidos.",
+                    "C. Absorber el dióxido de carbono del aire.",
+                    "D. Almacenar la clorofila para el proceso."
+                ],
+                correct: "A",
+                image: "https://i.postimg.cc/qMWs4zjC/21.jpg"
+            },
+            {
+                text: "¿Cuál es el compuesto final de la biosíntesis en el proceso fotosintético?",
+                options: [
+                    "A. CO₂",
+                    "B. H₂O",
+                    "C. C₆H₁₂O₆",
+                    "D. CH₃CH₂OH"
+                ],
+                correct: "C",
+                image: "https://i.postimg.cc/J4sNfbcL/22.jpg"
+            },
+            {
+                text: "El día 14 del ciclo menstrual ocurre lo siguiente:",
+                options: [
+                    "A. Se establece la fase entre el inicio y finalización del ciclo menstrual.",
+                    "B. Inicia la fase folicular del ciclo con la maduración de los folículos en el ovario.",
+                    "C. Se produce la salida de una célula sexual femenina de uno de los ovarios, ocurriendo la ovulación.",
+                    "D. Inicia la fase lútea para eliminar el tejido de la célula sexual femenina expulsada."
+                ],
+                correct: "C",
+                image: "https://i.postimg.cc/htx9jc5Z/24.jpg"
+            },
+            {
+                text: "Los números que señalan las estructuras del aparato reproductor masculino en que se realiza el proceso de espermatogénesis son:",
+                options: [
+                    "A. 1",
+                    "B. 3",
+                    "C. 4",
+                    "D. 2"
+                ],
+                correct: "B",
+                image: "https://i.postimg.cc/9fhyws3m/25.jpg"
+            },
+            {
+                text: "Asocia cada uno de los conceptos con la definición que le corresponde:",
+                options: [
+                    "A. a2, b4, c3, d1.",
+                    "B. a2, b3, c4, d1.",
+                    "C. a1, b3, c4, d2.",
+                    "D. a1, b3, c2, d4."
+                ],
+                correct: "C",
+                image: "https://i.postimg.cc/W4wgGSjM/28.jpg"
+            },
+            {
+                text: "Los aminoácidos son elementos esenciales en la traducción de ADN. El proceso podría ser deficiente con una dieta carente del siguiente grupo de biomoléculas:",
+                options: [
+                    "A. Vitaminas.",
+                    "B. Lípidos.",
+                    "C. Proteínas.",
+                    "D. Carbohidratos."
+                ],
+                correct: "C"
+            },
+            {
+                text: "De los elementos observados, ¿cuáles de ellos son factores abióticos?",
+                options: [
+                    "A. Suelo, luz solar, agua.",
+                    "B. Árboles, agua, clima.",
+                    "C. Viento, aves, relieve terrestre.",
+                    "D. Pasto, temperatura, mamíferos."
+                ],
+                correct: "A"
+            },
+            {
+                text: "La descripción que representa a un área natural protegida con elevada altura, temperatura fría, con bosque nebuloso, de asociación pino-roble, es:",
+                options: [
+                    "A. Complejo Barra de Santiago.",
+                    "B. Parque Walter Thilo Deininger.",
+                    "C. Parque Nacional El Imposible.",
+                    "D. Parque Nacional Montecristo."
+                ],
+                correct: "D"
+            },
+            {
+                text: "Una tormenta puede generar desastres ocasionados por las aguas superficiales. Selecciona la(s) explicación(es) verdadera(s) de los efectos de las aguas superficiales:",
+                options: [
+                    "A. 1 y 2",
+                    "B. 3 y 4",
+                    "C. 2 y 3",
+                    "D. Solo 1"
+                ],
+                correct: "A"
+            }
+        ];
+
+        // Shuffle the questions array
+        questions.sort(() => Math.random() - 0.5);
+
+        const questionsContainer = document.getElementById('questionsContainer');
+
+        questions.forEach((question, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+
+            const questionText = document.createElement('p');
+            questionText.innerText = `${index + 1}. ${question.text}`;
+            questionDiv.appendChild(questionText);
+
+            if (question.image) {
+                const questionImage = document.createElement('img');
+                questionImage.src = question.image;
+                questionDiv.appendChild(questionImage);
+            }
+
+            question.options.forEach(option => {
+                const optionLabel = document.createElement('label');
+                optionLabel.style.display = "block";
+                
+                const optionInput = document.createElement('input');
+                optionInput.type = 'radio';
+                optionInput.name = `question${index}`;
+                optionInput.value = option.charAt(0);
+
+                optionLabel.appendChild(optionInput);
+                optionLabel.appendChild(document.createTextNode(option));
+                questionDiv.appendChild(optionLabel);
+            });
+
+            questionsContainer.appendChild(questionDiv);
+        });
+
+        function calculateScore() {
+            let score = 0;
+            let totalQuestions = questions.length;
+            let incorrectAnswers = [];
+
+            questions.forEach((question, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === question.correct) {
                         score++;
                     } else {
-                        document.getElementById('result' + i).innerText = "Incorrecto";
-                        document.getElementById('result' + i).className = "incorrect";
+                        incorrectAnswers.push(index + 1);
                     }
                 } else {
-                    allAnswered = false;
-                    document.getElementById('result' + i).innerText = "Por favor, selecciona una respuesta.";
-                    document.getElementById('result' + i).className = "incorrect";
+                    incorrectAnswers.push(index + 1);
                 }
-            }
-            if (allAnswered) {
-                var finalScore = (score / 30) * 10;
-                alert("Tu calificación es: " + finalScore.toFixed(2) + "/10");
-            } else {
-                alert("Por favor, responde todas las preguntas antes de obtener la calificación.");
-            }
-        }
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function renderQuestions() {
-            var questions = [
-                {
-                    question: "1. Un niño camina 4 metros hacia el este y luego 3 metros hacia el norte; el desplazamiento resultante es:",
-                    options: ["A. 49 m al NE", "B. 5 m al NE", "C. 7 m al N", "D. 25 m al E"],
-                    name: "q1",
-                    image: "https://postimg.cc/tspP0ndZ"
-                },
-                {
-                    question: "2. Observa y analiza las posiciones de diferentes animales respecto a un punto de referencia. ¿Cómo definirías el concepto cinemático «posición»?",
-                    options: ["A. Es un vector que indica el lugar ocupado por el cuerpo respecto a un sistema de referencia.", "B. Es una flecha cuya longitud representa a escala la dirección de los cuerpos en una tabla de datos.", "C. Es una referencia para que el observador pueda medir la ubicación de los cuerpos.", "D. Son vectores en forma de flecha que indican la distancia que recorrió un cuerpo."],
-                    name: "q2",
-                    image: "https://postimg.cc/p9dFrN6P"
-                },
-                {
-                    question: "3. Un vehículo se traslada desde San Salvador hacia Sonsonate, sabiendo que entre ambas ciudades existe una distancia de 65.0 Km. y se desplaza a una velocidad de 80.0 Km. /h. Esa velocidad expresada en metros por segundo es equivalente a:",
-                    options: ["A. 1230.7 m/s", "B. 133.3 m/s", "C. 22.2 m/s", "D. 1.3m/s"],
-                    name: "q3"
-                },
-                {
-                    question: "4. Una barra de metal sólido tiene una masa de 21.53 kg. ¿A cuánto equivale en miligramos?",
-                    options: ["A. 21530000", "B. 21530", "C. 0.2153", "D. 0.02153"],
-                    name: "q4"
-                },
-                {
-                    question: "5. En el laboratorio de ciencias, 4 estudiantes realizaron mediciones de bebidas hidratantes con una probeta de 600 ml, ¿cuál de las medidas expresadas en forma de incerteza muestra la mayor precisión?",
-                    options: ["A. 500.0 ± 0.5 ml", "B. 500 ± 1 ml", "C. 500.0 ± 1.5 ml", "D. 500.0 ± 2.0 ml"],
-                    name: "q5"
-                },
-                {
-                    question: "6. El promedio de 5 medidas de la longitud de una regla métrica es de (x̅) = 4.82 m ; si una de las medidas (X1) es de 4.85 m, calcula la incerteza relativa(Ir), aplicando la siguiente fórmula: Ir = e / x̅; si e = X1 - x̅",
-                    options: ["A. 16066 m", "B. 160.6 m", "C. 0.62 m", "D. 0.0062 m"],
-                    name: "q6"
-                },
-                {
-                    question: "7. Una de las características del movimiento de tiro vertical es:",
-                    options: ["A. La velocidad inicial con la que es lanzado el objeto es diferente de cero.", "B. El objeto es lanzado desde una altura establecida.", "C. La velocidad inicial con la que es lanzado el objeto es nula.", "D. La gravedad influye siempre en la misma dirección del lanzamiento."],
-                    name: "q7",
-                    image: "https://postimg.cc/qNwKpBQm"
-                },
-                {
-                    question: "8. Se deja caer un objeto de un puente, el cual tarda 3 segundos en tocar el suelo, ¿de qué altura cae?",
-                    options: ["A. 44.1 m```html
-", "B. 29.4 m", "C. 14.7 m", "D. 58.8 m"],
-                    name: "q8"
-                },
-                {
-                    question: "9. Víctor viaja en un vehículo que se detiene bruscamente, la reacción de Víctor es impulsarse hacia adelante; según las leyes de Newton, ¿cuál es el motivo de esta reacción?",
-                    options: ["A. Debido a la fuerza recibida hubo variación en el movimiento del cuerpo.", "B. El cuerpo reacciona en dirección contraria a la que se conducía originalmente.", "C. La tendencia a conservar la dirección y velocidad a la que se estaba viajando.", "D. Porque el cuerpo continúa moviéndose en línea recta."],
-                    name: "q9"
-                },
-                {
-                    question: "10. Una persona empuja una pared de concreto, tal como se muestra en el diagrama, considerando la 3ª ley de Newton, ¿cuál de las siguientes afirmaciones es la correcta?",
-                    options: ["A. Debido a que la pared no puede moverse, ésta no puede actuar sobre la persona.", "B. La persona empuja la pared con una fuerza igual a la fuerza que ejerce la pared sobre la persona.", "C. La pared genera una fuerza de mayor magnitud a la fuerza que realiza la persona.", "D. La persona no puede empujar la pared porque ésta es un cuerpo firme."],
-                    name: "q10",
-                    image: "https://postimg.cc/5HkFFPhL"
-                },
-                {
-                    question: "11. Cuando 2 barras de metales diferentes se calientan, se expanden en distinta proporción; esto se debe a:",
-                    options: ["A. La resistencia que ofrecen los metales frente al calor.", "B. El calor específico de cada material.", "C. El coeficiente de dilatación del metal.", "D. La relación de la energía calorífica con la energía mecánica."],
-                    name: "q11"
-                },
-                {
-                    question: "12. La ecuación que describe la ley de Ohm es:",
-                    options: ["A. I = R/V", "B. I = V/R", "C. V = I/R", "D. R = I/V"],
-                    name: "q12"
-                },
-                {
-                    question: "13. ¿Cuál de los siguientes materiales es conductor de electricidad?",
-                    options: ["A. Papel", "B. Vidrio", "C. Cobre", "D. Madera"],
-                    name: "q13",
-                    image: "https://postimg.cc/fttS7csF"
-                },
-                {
-                    question: "14. La energía potencial de un cuerpo depende de:",
-                    options: ["A. Su masa y velocidad", "B. Su masa y altura", "C. Su altura y velocidad", "D. Su masa y volumen"],
-                    name: "q14"
-                },
-                {
-                    question: "15. La interpretación correcta de los datos mostrados en la viñeta es:",
-                    options: ["A. El volumen de HCL es del 5 % y 0.1 la molalidad.", "B. La masa contenida en la solución es 1095 g/ml y 0.1, su molalidad.", "C. La masa contenida en la solución es 1095 g/ml y 0.1, su molaridad.", "D. La masa de HCL es del 5% y 0.1 la molalidad."],
-                    name: "q15",
-                    image: "https://postimg.cc/bD7DmZNv"
-                },
-                {
-                    question: "16. Los átomos del diamante y el grafito tienen diferentes arreglos espaciales en el enlace covalente porque:",
-                    options: ["A. Los átomos del diamante y el grafito tienen diferentes arreglos espaciales en el enlace covalente.", "B. El diamante tiene un enlace covalente puro y el grafito un enlace covalente polar.", "C. La fuerza de unión entre los átomos en el enlace del diamante es más fuerte, en comparación con la del grafito.", "D. La electronegatividad es una propiedad química que presenta poca influencia en el arreglo de los átomos."],
-                    name: "q16",
-                    image: "https://postimg.cc/GTvBVbHx"
-                },
-                {
-                    question: "17. Seleccione la característica que permite la formación de un enlace iónico:",
-                    options: ["A. La diferencia de electronegatividad entre los átomos es grande.", "B. Todas las sustancias que presentan este tipo de enlace deben ser solubles en agua.", "C. Los puntos de fusión y de ebullición de los compuestos deben ser bajos.", "D. La diferencia de electronegatividad entre los átomos es pequeña."],
-                    name: "q17"
-                },
-                {
-                    question: "18. En la tabla periódica, el ordenamiento de los elementos está determinado por medio de:",
-                    options: ["A. El número másico.", "B. El número atómico.", "C. El peso atómico.", "D. La valencia."],
-                    name: "q18"
-                },
-                {
-                    question: "19. De acuerdo con la figura mostrada, los niveles de organización que corresponden a los espacios vacíos son:",
-                    options: ["A. Moléculas, células, sistema de órganos.", "B. Complejo supramolecular, células, sistema de órganos.", "C. Población, comunidad, ecosistema.", "D. Tejidos, órganos, organismo multicelular complejo."],
-                    name: "q19",
-                    image: "https://postimg.cc/jCfJL4Zn"
-                },
-                {
-                    question: "20. Dentro de la composición de los seres vivos, ¿cuál es el nivel estructural más sencillo que puede desarrollar las funciones de la vida?",
-                    options: ["A. Molecular.", "B. Celular.", "C. Atómico.", "D. Tisular."],
-                    name: "q20"
-                },
-                {
-                    question: "21. La biósfera constituye la jerarquía más alta del nivel de organización porque:",
-                    options: ["A. Establece la relación entre grupos de diferentes especies, con el medio que les rodea.", "B. Se produce la organización de tejidos y órganos que realizarán determinadas funciones.", "C. Permite la formación de grupos de individuos similares que tienden a aparearse entre sí.", "D. Todos los seres vivos están relacionados en conjunto con su medio ambiente."],
-                    name: "q21",
-                    image: "https://postimg.cc/sv9QJDFV"
-                },
-                {
-                    question: "22. ¿Cuál es la función principal de los cloroplastos en el proceso fotosintético?",
-                    options: ["A. Captar la luz por medio de los pigmentos presentes en los discos tilacoides.", "B. Convertir la energía química para sintetizar glúcidos y aminoácidos.", "C. Absorber el dióxido de carbono del aire.", "D. Almacenar la clorofila para el proceso."],
-                    name: "q22",
-                    image: "https://postimg.cc/F7QkckBW"
-                },
-                {
-                    question: "23. ¿Cuál es el compuesto final de la biosíntesis en el proceso fotosintético?",
-                    options: ["A. CO₂", "B. H₂O", "C. C₆H₁₂O₆", "D. CH₃CH₂OH"],
-                    name: "q23"
-                },
-                {
-                    question: "24. El día 14 del ciclo menstrual ocurre lo siguiente:",
-                    options: ["A. Se establece la fase entre el inicio y finalización del ciclo menstrual.", "B. Inicia la fase folicular del ciclo con la maduración de los folículos en el ovario.", "C. Se produce la salida de una célula sexual femenina de uno de los ovarios, ocurriendo la ovulación.", "D. Inicia la fase lútea para eliminar el tejido de la célula sexual femenina expulsada."],
-                    name: "q24",
-                    image: "https://postimg.cc/0zk6XRx7"
-                },
-                {
-                    question: "25. Los números que señalan las estructuras del aparato reproductor masculino en que se realiza el proceso de espermatogénesis son:",
-                    options: ["A. 1", "B. 3", "C. 4", "D. 2"],
-                    name: "q25",
-                    image: "https://postimg.cc/k2T2k1Xz"
-                },
-                {
-                    question: "26. Asocia cada uno de los conceptos con la definición que le corresponde:",
-                    options: ["A. a2, b4, c3, d1.", "B. a2, b3, c4, d1.", "C. a1, b3, c4, d2.", "D. a1, b3, c2, d4."],
-                    name: "q26"
-                },
-                {
-                    question: "27. Los aminoácidos son elementos esenciales en la traducción de ADN. El proceso podría ser deficiente con una dieta carente del siguiente grupo de biomoléculas:",
-                    options: ["A. Vitaminas.", "B. Lípidos.", "C. Proteínas.", "D. Carbohidratos."],
-                    name```html
-: "q27"
-                },
-                {
-                    question: "28. De los elementos observados, ¿cuáles de ellos son factores abióticos?",
-                    options: ["A. Suelo, luz solar, agua.", "B. Árboles, agua, clima.", "C. Viento, aves, relieve terrestre.", "D. Pasto, temperatura, mamíferos."],
-                    name: "q28",
-                    image: "https://postimg.cc/Z90WZ8WR"
-                },
-                {
-                    question: "29. La descripción que representa a un área natural protegida con elevada altura, temperatura fría, con bosque nebuloso, de asociación pino-roble, es:",
-                    options: ["A. Complejo Barra de Santiago.", "B. Parque Walter Thilo Deininger.", "C. Parque Nacional El Imposible.", "D. Parque Nacional Montecristo."],
-                    name: "q29"
-                },
-                {
-                    question: "30. En nuestro país una tormenta puede generar desastres ocasionados por las aguas superficiales. Selecciona la(s) explicación(es) verdadera(s) de los efectos de las aguas superficiales:",
-                    options: ["A. 1 y 2", "B. 3 y 4", "C. 2 y 3", "D. Solo 1"],
-                    name: "q30"
-                }
-            ];
-
-            // Shuffle questions
-            shuffle(questions);
-
-            // Render questions to the DOM
-            var quizSection = document.getElementById('quiz');
-            quizSection.innerHTML = '';
-
-            questions.forEach(function(question, index) {
-                var questionHTML = '<p><strong>' + (index + 1) + '. ' + question.question + '</strong></p>';
-                if (question.image) {
-                    questionHTML += '<img src="' + question.image + '" alt="Imagen relacionada con la pregunta ' + (index + 1) + '">';
-                }
-                questionHTML += '<ul>';
-                question.options.forEach(function(option) {
-                    questionHTML += '<li><label><input type="radio" name="' + question.name + '" value="' + option.charAt(0) + '"> ' + option + '</label></li>';
-                });
-                questionHTML += '</ul><p id="result' + (index + 1) + '"></p>';
-                quizSection.innerHTML += questionHTML;
             });
+
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = '';
+            const resultText = document.createElement('p');
+            const grade = (score / totalQuestions) * 10;
+            resultText.innerText = `Tu calificación es: ${grade.toFixed(2)} / 10`;
+            resultContainer.appendChild(resultText);
+
+            if (incorrectAnswers.length > 0) {
+                const incorrectText = document.createElement('p');
+                incorrectText.className = 'incorrect';
+                incorrectText.innerText = `Preguntas incorrectas: ${incorrectAnswers.join(', ')}`;
+                resultContainer.appendChild(incorrectText);
+            } else {
+                const correctText = document.createElement('p');
+                correctText.className = 'correct';
+                correctText.innerText = '¡Todas las respuestas son correctas!';
+                resultContainer.appendChild(correctText);
+            }
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            renderQuestions();
-        });
     </script>
-
 </body>
 </html>
