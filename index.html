@@ -38,6 +38,21 @@
     <div id="resultContainer"></div>
 
     <script>
+        const authorizedNIEs = [
+            "4267837", "3850952", "3851018", "5032035", 
+            "19806181", "6297536", "2608724", "6262810",
+            "4267838", "20162435", "3850923", "19806209", 
+            "4267828"
+        ];
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let userNIE = prompt("Por favor, ingrese su NIE:");
+            if (!authorizedNIEs.includes(userNIE)) {
+                alert("NIE no autorizado. No puedes acceder a este cuestionario.");
+                document.body.innerHTML = ''; // Borra el contenido de la página
+            }
+        });
+
         const questions = [
             {
                 text: "Un niño camina 4 metros hacia el este y luego 3 metros hacia el norte; el desplazamiento resultante. Para ubicar el desplazamiento considera el siguiente esquema de la situación (Escala 1cm = 1m)",
@@ -181,8 +196,7 @@
                     "C. La melaza es una sustancia tóxica que envenenará lentamente muchas especies del río.",
                     "D. Se producirá saturación de azúcar en el agua debido a la melaza provocando que los peces se asfixien."
                 ],
-                correct: "A",
-                
+                correct: "A"
             },
             {
                 text: "La interpretación correcta de los datos mostrados en la viñeta es:",
